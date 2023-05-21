@@ -46,7 +46,8 @@ public class MancalaBoard {
         }
     }
 
-    private void testInput1() {
+    //TODO: make private
+    public void testInput1() {
         board[1] = board[8] = 1;
         board[2] = board[9] = 4;
         board[3] = board[10] = 5;
@@ -54,7 +55,8 @@ public class MancalaBoard {
         board[5] = board[12] = 3;
         board[6] = board[13] = 2;
     }
-    private void testInput2(){
+
+    public void testInput2() {
         for (int i = 0; i < 14; i++) {
             board[i] = 0;
         }
@@ -146,8 +148,7 @@ public class MancalaBoard {
         for (int i = 1; i <= numStones; i++) {
             int currIndex = (index + i) % board.length;
             //skip the other player's bank
-            if((turn == 0 && currIndex == 0) || (turn == 1 && currIndex == 7))
-            {
+            if ((turn == 0 && currIndex == 0) || (turn == 1 && currIndex == 7)) {
                 numStones++;
                 ret = 1;
             } else {
@@ -157,7 +158,7 @@ public class MancalaBoard {
         return ret;
     }
 
-    private boolean isIndexValid(int index) {
+    public boolean isIndexValid(int index) {
         //check that index in bounds AND the pocket actually has stones in it
         int actualIndex = index + (turn == 1 ? 7 : 0);
         return (index >= 1 && index <= 6) && board[actualIndex] > 0;
@@ -197,5 +198,13 @@ public class MancalaBoard {
             String endText = winner == 0 ? "Draw!" : "Player " + winner + " wins!";
             System.out.println(endText);
         }
+    }
+
+    public int getPlayerOneScore() {
+        return board[7];
+    }
+
+    public int getPlayerTwoScore() {
+        return board[0];
     }
 }
