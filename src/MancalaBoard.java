@@ -9,9 +9,13 @@ public class MancalaBoard {
     private final int[] board = new int[14];
     private final boolean avalanche;
 
+    private final boolean random;
+
     //alternates btw 0 (player 1) and 1 (player 2) - could use bool but makes math easier
     private int turn = 0;
     private boolean gameOver = false;
+
+    private MancalaBoard lastMove;
 
     /* mancala board in actuality
       [     Bank 1            ]
@@ -32,6 +36,7 @@ public class MancalaBoard {
 
     public MancalaBoard(boolean avalancheMode, boolean random) {
         avalanche = avalancheMode;
+        this.random = random;
         if (random) {
             for (int i = 0; i < 12; i++) {
                 int boardIndex = i >= 6 ? i + 2 : i + 1;
@@ -60,8 +65,9 @@ public class MancalaBoard {
         for (int i = 0; i < 14; i++) {
             board[i] = 0;
         }
-        board[6] = board[5] = board[4] = 1;
-        board[13] = 2;
+        board[2] = board[3] = board[5] = 1;
+        board[1] = 6;
+        board[13] = 3;
     }
 
     //used to input in-progress games for solving
@@ -98,6 +104,7 @@ public class MancalaBoard {
             index = scanner.nextInt();
         }
 
+        lastMove = this.copy();
         index += turn == 1 ? 7 : 0; //denormalize indices, needs to be 8-13 for player 2
         int endIndex = index + board[index] % board.length;
         if (!avalanche) {
@@ -109,7 +116,9 @@ public class MancalaBoard {
                 // skipping the other player's bank. Use moveStones's return to account for this
                 endIndex = (index + board[index]) % board.length;
                 endIndex += moveStones(index);
-                go = board[endIndex] > 1;
+                //lazy way of fixing edge case
+                endIndex = endIndex == 14 && turn == 0 ? 1 : endIndex;
+                go = board[endIndex] > 1 && (endIndex != 0 && endIndex != 7);
                 index = endIndex;
             }
         }
@@ -200,11 +209,20 @@ public class MancalaBoard {
         }
     }
 
-    public int getPlayerOneScore() {
-        return board[7];
+    public int getPlayerScore(int player) {
+        return board[player == 1 ? 7 : 0];
     }
 
-    public int getPlayerTwoScore() {
-        return board[0];
+    //deep copy
+    public MancalaBoard copy() {
+        MancalaBoard ret = new MancalaBoard(avalanche, random);
+        ret.gameOver = gameOver;
+        ret.turn = turn;
+        System.arraycopy(board, 0, ret.board, 0, board.length);
+        return ret;
+    }
+
+    public MancalaBoard undoLastMove() {
+        return lastMove;
     }
 }

@@ -3,20 +3,14 @@ import java.util.Scanner;
 public class MancalaRunner {
     public static void main(String[] args) {
         //tester();
-        String out = preamble();
+        MancalaBoard mb = new MancalaBoard(true, false);
+        mb.testInput2();
+        /*String out = preamble();
         MancalaBoard mb = new MancalaBoard(out.charAt(0) == 'y',
                 out.charAt(1) == 'y');
-        System.out.println("Your Board (Avalanche: " + (out.charAt(0) == 'y') + ")");
+        System.out.println("Your Board (Avalanche: " + (out.charAt(0) == 'y') + ")");*/
         System.out.println(mb);
-        while(!mb.isGameOver()) {
-            Scanner gameInput = new Scanner(System.in);
-            System.out.println("Player " + mb.currPlayer() + ", please input a number 1-6");
-            int index = gameInput.nextInt();
-
-            mb.playTurn(index);
-            System.out.println(mb);
-            mb.gameOver();
-        }
+        play(mb);
         //game over, nothing to be handled in main
     }
 
@@ -48,6 +42,18 @@ public class MancalaRunner {
         MancalaBoard mb = new MancalaBoard(false, false);
         for (int move : moves) {
             mb.playTurn(move);
+        }
+    }
+
+    private static void play(MancalaBoard mb) {
+        while(!mb.isGameOver()) {
+            Scanner gameInput = new Scanner(System.in);
+            System.out.println("Player " + mb.currPlayer() + ", please input a number 1-6");
+            int index = gameInput.nextInt();
+
+            mb.playTurn(index);
+            System.out.println(mb);
+            mb.gameOver();
         }
     }
 }
