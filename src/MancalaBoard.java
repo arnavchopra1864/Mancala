@@ -82,7 +82,7 @@ public class MancalaBoard {
             System.out.println("Please input player "
                     + currPlayer + "'s pocket " + (count % 6 + 1));
             int stones = input.nextInt();
-            while (stones < 1) {
+            while (stones < 0) {
                 System.out.println("Please enter a positive number");
                 stones = input.nextInt();
             }

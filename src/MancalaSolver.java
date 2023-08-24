@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+//Doesn't work, instead of debugging I restarted from scratch. Use v2
 public class MancalaSolver {
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         //tells you the most optimal move in a mancala avalanche game
         MancalaBoard mb = new MancalaBoard(true, false);
         //mb.inputBoard();
@@ -51,5 +52,5 @@ public class MancalaSolver {
             }
         }
         return high;
-    }
+    }*/
 }
